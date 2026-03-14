@@ -1,53 +1,78 @@
 import ccxt
-import math
 
-print("\n🚀 Running Radar Scan...\n")
+print("🛸 Launching Moonshot Radar...")
 
-exchange = ccxt.coinbase({
-    "enableRateLimit": True
-})
+exchange = ccxt.coinbase()
+
+markets = exchange.load_markets()
+
+symbols = list(markets.keys())
+
+print(f"Scanning {len(symbols)} markets")
 
 tickers = exchange.fetch_tickers()
 
-results = []
+candidates = []
 
-for symbol, data in tickers.items():
+seen_assets = set()
 
-    if not symbol.endswith("/USD"):
+for symbol in symbols:
+
+    if symbol not in tickers:
         continue
+
+    asset = symbol.split("/")[0]
+
+    # remove duplicate markets (USD / USDC / USDT)
+    if asset in seen_assets:
+        continue
+
+    seen_assets.add(asset)
+
+    data = tickers[symbol]
 
     try:
 
         price = data["last"]
+        volume = data["quoteVolume"]
         change = data["percentage"]
-        volume = data["baseVolume"]
 
-        if price is None or change is None or volume is None:
+        if price is None or volume is None or change is None:
             continue
 
-        if volume < 500000:
+        # Skip low liquidity
+        if volume < 1_000_000:
             continue
 
-        volume_score = math.log10(volume + 1)
-        momentum_score = abs(change)
+        # Skip expensive assets (moonshot focus)
+        if price > 10:
+            continue
 
-        score = volume_score + momentum_score
+        # Skip mega caps
+        if asset in ["BTC", "ETH", "SOL", "BNB"]:
+            continue
 
-        if momentum_score > 5:
-            results.append((symbol, score, price, change, volume))
+        score = abs(change) * volume / 100000
+
+        candidates.append({
+            "symbol": symbol,
+            "price": price,
+            "volume": volume,
+            "change": change,
+            "score": score
+        })
 
     except:
-        pass
+        continue
 
-results = sorted(results, key=lambda x: x[1], reverse=True)
+# Sort by momentum score
+candidates = sorted(candidates, key=lambda x: x["score"], reverse=True)
 
-print("🔥 RADAR SIGNALS\n")
+print("\n🚀 TOP MOMENTUM SIGNALS\n")
 
-for r in results[:15]:
+for coin in candidates[:15]:
+
     print(
-        r[0],
-        "| score:", round(r[1],2),
-        "| price:", "{:.8f}".format(r[2]),
-        "| change:", round(r[3],2),
-        "| volume:", int(r[4])
+        f"{coin['symbol']} | score: {round(coin['score'],2)} | price: {coin['price']:.8f} | "
+        f"24h change: {coin['change']}% | volume: {int(coin['volume'])}"
     )
