@@ -3,8 +3,9 @@
         "symbol": "UP/USD",
         "entry_price": 0.07,
         "size": 100,
-        "status": "OPEN",
-        "timestamp": 1773532907.146653
+        "status": "LOSS",
+        "timestamp": 1773532907.146653,
+        "exit_price": 0.06367
     },
     {
         "symbol": "TRUMP/USD",
@@ -38,8 +39,9 @@
         "symbol": "UP/USD",
         "entry_price": 0.07001,
         "size": 100,
-        "status": "OPEN",
-        "timestamp": 1773532959.727221
+        "status": "LOSS",
+        "timestamp": 1773532959.727221,
+        "exit_price": 0.06367
     },
     {
         "symbol": "TRUMP/USD",
@@ -68,5 +70,19 @@
         "size": 100,
         "status": "OPEN",
         "timestamp": 1773532960.855476
+    },
+    {
+        "symbol": "XAN/USD",
+        "entry_price": 0.01015,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773541450.997876
+    },
+    {
+        "symbol": "XCN/USD",
+        "entry_price": 0.00551,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773541451.2654731
     }
 ]
