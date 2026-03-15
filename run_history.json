@@ -78,5 +78,45 @@
     "alpha_output": "ERROR: [Errno 2] No such file or directory: 'python'",
     "volume_output": "ERROR: [Errno 2] No such file or directory: 'python'",
     "stats_output": "ERROR: [Errno 2] No such file or directory: 'python'"
+  },
+  {
+    "last_run": "2026-03-14 20:05:00",
+    "signal_count": 15,
+    "open_trade_count": 10,
+    "top_signal": "UP/USD",
+    "agent_brief": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "alpha_output": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "volume_output": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "stats_output": "ERROR: [Errno 2] No such file or directory: 'python'"
+  },
+  {
+    "last_run": "2026-03-14 20:10:00",
+    "signal_count": 15,
+    "open_trade_count": 10,
+    "top_signal": "UP/USD",
+    "agent_brief": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "alpha_output": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "volume_output": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "stats_output": "ERROR: [Errno 2] No such file or directory: 'python'"
+  },
+  {
+    "last_run": "2026-03-14 20:15:01",
+    "signal_count": 15,
+    "open_trade_count": 10,
+    "top_signal": "UP/USD",
+    "agent_brief": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "alpha_output": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "volume_output": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "stats_output": "ERROR: [Errno 2] No such file or directory: 'python'"
+  },
+  {
+    "last_run": "2026-03-14 20:20:00",
+    "signal_count": 15,
+    "open_trade_count": 10,
+    "top_signal": "UP/USD",
+    "agent_brief": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "alpha_output": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "volume_output": "ERROR: [Errno 2] No such file or directory: 'python'",
+    "stats_output": "ERROR: [Errno 2] No such file or directory: 'python'"
   }
 ]
