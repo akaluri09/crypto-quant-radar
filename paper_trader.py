@@ -7,7 +7,7 @@ exchange = ccxt.coinbase()
 SIGNALS_FILE = "signals.json"
 TRADES_FILE = "trade_log.json"
 
-TRADE_SIZE = 100  # $100 per simulated trade
+TRADE_SIZE = 100
 
 
 def load_signals():
@@ -32,8 +32,11 @@ def save_trades(trades):
 
 
 def get_price(symbol):
-    ticker = exchange.fetch_ticker(symbol)
-    return ticker["last"]
+    try:
+        ticker = exchange.fetch_ticker(symbol)
+        return ticker["last"]
+    except:
+        return None
 
 
 def open_trade(symbol, price):
@@ -49,6 +52,7 @@ def open_trade(symbol, price):
     }
 
     trades.append(trade)
+
     save_trades(trades)
 
 
@@ -68,15 +72,16 @@ def evaluate_trades():
 
             current = get_price(symbol)
 
+            if current is None:
+                continue
+
             change = (current - entry) / entry * 100
 
             if change >= 5:
-
                 trade["status"] = "WIN"
                 trade["exit_price"] = current
 
             elif change <= -3:
-
                 trade["status"] = "LOSS"
                 trade["exit_price"] = current
 
@@ -88,13 +93,24 @@ def evaluate_trades():
 
 def run():
 
+    print("Running paper trader...")
+
     signals = load_signals()
+    trades = load_trades()
+
+    open_symbols = {t["symbol"] for t in trades if t["status"] == "OPEN"}
 
     for coin in signals[:5]:
 
         symbol = coin["symbol"]
 
+        if symbol in open_symbols:
+            continue
+
         price = get_price(symbol)
+
+        if price is None:
+            continue
 
         open_trade(symbol, price)
 
@@ -102,6 +118,4 @@ def run():
 
 
 if __name__ == "__main__":
-    print("Running paper trader...")
     run()
-

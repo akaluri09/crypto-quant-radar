@@ -5,21 +5,38 @@ print("\n🛸 UFO SIGNAL ENGINE ONLINE\n")
 
 signals = []
 
-# run breakout radar
+# run scanner
 scanner_output = subprocess.check_output(
     ["python", "scanner.py"]
 ).decode()
 
+print(scanner_output)
+
 for line in scanner_output.split("\n"):
 
-    if "/USD" in line:
+    if "/USD" in line and "|" in line:
 
-        symbol = line.split("|")[0].strip()
+        try:
+            parts = [p.strip() for p in line.split("|")]
 
-        signals.append({
-            "type": "BREAKOUT",
-            "symbol": symbol
-        })
+            symbol = parts[0]
+            score = float(parts[1].split(":")[1].strip())
+            price = float(parts[2].split(":")[1].strip())
+            change_text = parts[3].split(":")[1].strip().replace("%", "")
+            change = float(change_text)
+            volume = float(parts[4].split(":")[1].strip())
+
+            signals.append({
+                "type": "BREAKOUT",
+                "symbol": symbol,
+                "score": score,
+                "price": price,
+                "change": change,
+                "volume": volume
+            })
+
+        except:
+            continue
 
 
 # run listing detector
@@ -27,33 +44,35 @@ listing_output = subprocess.check_output(
     ["python", "listing_detector.py"]
 ).decode()
 
+print(listing_output)
+
 for line in listing_output.split("\n"):
 
-    if "|" in line:
+    if "|" in line and ("COINBASE" in line or "KRAKEN" in line):
 
-        parts = line.split("|")
+        try:
+            parts = [p.strip() for p in line.split("|")]
+            exchange = parts[0]
+            symbol = parts[1]
 
-        exchange = parts[0].strip()
-        symbol = parts[1].strip()
+            signals.append({
+                "type": "NEW_LISTING",
+                "symbol": symbol,
+                "exchange": exchange,
+                "score": 999,   # huge bonus for new listings
+                "price": 0,
+                "change": 0,
+                "volume": 0
+            })
 
-        signals.append({
-            "type": "NEW_LISTING",
-            "symbol": symbol,
-            "exchange": exchange
-        })
+        except:
+            continue
 
 
-# save signals
 with open("signals.json", "w") as f:
     json.dump(signals, f, indent=2)
-
 
 print("\n👽 SIGNAL BOARD\n")
 
 for s in signals:
-
-    if s["type"] == "BREAKOUT":
-        print("🛸 BREAKOUT:", s["symbol"])
-
-    if s["type"] == "NEW_LISTING":
-        print("👾 NEW LISTING:", s["symbol"], "on", s["exchange"])
+    print(f"{s['type']} | {s['symbol']} | score={s['score']}")

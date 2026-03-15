@@ -1,0 +1,72 @@
+[
+    {
+        "symbol": "UP/USD",
+        "entry_price": 0.07,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773532907.146653
+    },
+    {
+        "symbol": "TRUMP/USD",
+        "entry_price": 4.03,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773532907.469287
+    },
+    {
+        "symbol": "XRP/USD",
+        "entry_price": 1.4087,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773532907.8078809
+    },
+    {
+        "symbol": "APR/USD",
+        "entry_price": 0.1711,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773532908.2030652
+    },
+    {
+        "symbol": "AXS/USD",
+        "entry_price": 1.259,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773532908.5118248
+    },
+    {
+        "symbol": "UP/USD",
+        "entry_price": 0.07001,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773532959.727221
+    },
+    {
+        "symbol": "TRUMP/USD",
+        "entry_price": 4.0,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773532960.025053
+    },
+    {
+        "symbol": "XRP/USDC",
+        "entry_price": 1.4071,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773532960.236958
+    },
+    {
+        "symbol": "APR/USD",
+        "entry_price": 0.1709,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773532960.544033
+    },
+    {
+        "symbol": "AXS/USD",
+        "entry_price": 1.257,
+        "size": 100,
+        "status": "OPEN",
+        "timestamp": 1773532960.855476
+    }
+]
