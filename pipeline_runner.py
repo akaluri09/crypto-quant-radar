@@ -94,6 +94,12 @@ def main():
     agent_output = run_command([sys.executable, "agent.py"])
 
     # --------------------------------
+    # 10. Telegram alerts
+    # --------------------------------
+    print("📲 Sending Chimtu alerts...")
+    run_command([sys.executable, "telegram_alert.py", "--quiet"])
+
+    # --------------------------------
     # Load latest data
     # --------------------------------
     signals = load_json_file("signals.json", [])
