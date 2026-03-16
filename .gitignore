@@ -1,4 +1,29 @@
 env/
+# Python
 __pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Environment
+.env
+
+# Runtime data
+trade_log.json
 signals.json
-known_markets.json
+latest_snapshot.json
+market_radar.json
+discovery_radar.json
+assistant_memory.json
+run_history.json
+known_discoveries.json
+compression_signals.json
+cron.log
+
+# Data folders
+data/
+logs/
+
+# Generated reports
+*.pdf

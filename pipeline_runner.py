@@ -1,7 +1,7 @@
 import subprocess
 import json
 import os
-import time
+import sys
 from datetime import datetime
 
 SNAPSHOT_FILE = "latest_snapshot.json"
@@ -23,7 +23,7 @@ def load_json_file(filename, default):
         try:
             with open(filename, "r") as f:
                 return json.load(f)
-        except:
+        except Exception:
             return default
     return default
 
@@ -36,14 +36,66 @@ def save_json_file(filename, data):
 def main():
     started_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    scanner_output = run_command(["python", "scanner.py"])
-    signal_output = run_command(["python", "signal_engine.py"])
-    volume_output = run_command(["python", "volume_radar.py"])
-    trader_output = run_command(["python", "paper_trader.py"])
-    stats_output = run_command(["python", "model_stats.py"])
-    agent_output = run_command(["python", "agent.py"])
-    alpha_output = run_command(["python", "alpha_engine.py"])
+    print("🚀 Starting Quant Pipeline")
+    print("Time:", started_at)
 
+    # --------------------------------
+    # 1. Collect fresh market data
+    # --------------------------------
+    print("📡 Collecting market candles...")
+    collector_output = run_command([sys.executable, "multi_exchange_collector.py"])
+
+    # --------------------------------
+    # 2. Market scan
+    # --------------------------------
+    print("🔎 Running market scanner...")
+    scanner_output = run_command([sys.executable, "scanner.py"])
+
+    # --------------------------------
+    # 3. Volume anomaly detection
+    # --------------------------------
+    print("🔥 Running volume radar...")
+    volume_output = run_command([sys.executable, "volume_radar.py"])
+
+    # --------------------------------
+    # 4. Discovery engine
+    # --------------------------------
+    print("🧠 Running discovery engine...")
+    discovery_output = run_command([sys.executable, "discovery_engine.py"])
+
+    # --------------------------------
+    # 5. Signal generation
+    # --------------------------------
+    print("📊 Generating signals...")
+    signal_output = run_command([sys.executable, "signal_engine.py"])
+
+    # --------------------------------
+    # 6. Alpha scoring
+    # --------------------------------
+    print("🧬 Running alpha engine...")
+    alpha_output = run_command([sys.executable, "alpha_engine.py"])
+
+    # --------------------------------
+    # 7. Paper trading simulation
+    # --------------------------------
+    print("📈 Running paper trader...")
+    trader_output = run_command([sys.executable, "paper_trader.py"])
+
+    # --------------------------------
+    # 8. Model statistics
+    # --------------------------------
+    print("📊 Updating model stats...")
+    stats_output = run_command([sys.executable, "model_stats.py"])
+
+    # --------------------------------
+    # 9. Agent assistant summary
+    # --------------------------------
+    print("🤖 Generating agent brief...")
+    agent_output = run_command([sys.executable, "agent.py"])
+
+    # --------------------------------
+    # Load latest data
+    # --------------------------------
     signals = load_json_file("signals.json", [])
     trades = load_json_file("trade_log.json", [])
 
@@ -55,21 +107,35 @@ def main():
         "agent_brief": agent_output,
         "alpha_output": alpha_output,
         "volume_output": volume_output,
-        "stats_output": stats_output
+        "stats_output": stats_output,
+        "collector_output": collector_output,
+        "scanner_output": scanner_output,
+        "discovery_output": discovery_output,
+        "signal_output": signal_output,
+        "trader_output": trader_output,
     }
 
+    # --------------------------------
+    # Save snapshot
+    # --------------------------------
     save_json_file(SNAPSHOT_FILE, snapshot)
 
+    # --------------------------------
+    # Update run history
+    # --------------------------------
     history = load_json_file(RUN_LOG_FILE, [])
     history.append(snapshot)
-    history = history[-50:]  # keep last 50 runs
+    history = history[-50:]
     save_json_file(RUN_LOG_FILE, history)
 
-    print("🛸 Pipeline completed")
-    print(f"Last run: {started_at}")
-    print(f"Signals: {snapshot['signal_count']}")
-    print(f"Open trades: {snapshot['open_trade_count']}")
-    print(f"Top signal: {snapshot['top_signal']}")
+    # --------------------------------
+    # Final output
+    # --------------------------------
+    print("\n🛸 Pipeline completed")
+    print("Last run:", started_at)
+    print("Signals:", snapshot["signal_count"])
+    print("Open trades:", snapshot["open_trade_count"])
+    print("Top signal:", snapshot["top_signal"])
 
 
 if __name__ == "__main__":
